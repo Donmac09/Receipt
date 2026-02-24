@@ -346,7 +346,7 @@
                 <span>📶 Telecel</span>
                 <span>📶 AirtelTigo</span>
                 <span>⏱️ 3min-4hr delivery</span>
-                <span>📱 Momo only</span>
+                <span>📱 Momo & Cash</span>
             </div>
 
             <div class="form-grid">
@@ -387,6 +387,7 @@
                         <option value="40GB">40GB</option>
                         <option value="50GB">50GB</option>
                         <option value="100GB">100GB</option>
+                        <option value="200GB">200GB</option>
                     </select>
                 </div>
 
@@ -411,12 +412,13 @@
                         <option value="MTN Momo">MTN Momo</option>
                         <option value="Telecel Momo">Telecel Momo</option>
                         <option value="AirtelTigo Momo">AirtelTigo Momo</option>
+                        <option value="Cash">Cash</option>
                     </select>
                 </div>
 
                 <div class="form-item full">
                     <label>📝 ADDITIONAL NOTES (optional)</label>
-                    <input type="text" id="extraNote" value="Paid via Momo" placeholder="e.g. Call before delivery">
+                    <input type="text" id="extraNote" value="Paid via Cash" placeholder="e.g. Call before delivery">
                 </div>
             </div>
         </div>
@@ -441,8 +443,8 @@
   AMOUNT          : GHS 46
   BENEFICIARY     : 024 555 7890
   PAYMENT FROM    : 024 555 4321
-  METHOD          : MTN Momo
-  NOTES           : Paid via Momo
+  METHOD          : Cash
+  NOTES           : Paid via Cash
 ══════════════════════════════
   STATUS          : ✅ PAID / PROCESSING
 ══════════════════════════════
@@ -510,7 +512,7 @@
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
 
-    // Generate receipt with date & time
+    // Generate receipt with date & time and exact message format
     function generateFormattedReceipt() {
         const order = orderNumber.value.trim() || 'DHUB-????';
         const dateTime = getCurrentDateTime();
@@ -555,7 +557,7 @@
         updateWhatsAppLink();
     }
 
-    // Update WhatsApp link with date
+    // Update WhatsApp link with date and exact message format
     function updateWhatsAppLink() {
         const order = orderNumber.value.trim() || 'DHUB-????';
         const dateTime = getCurrentDateTime();
@@ -584,7 +586,10 @@
 ✅ *PAID / PROCESSING*
 ══════════════════════════════
 
-Donmac Data Hub thank you! Order placed. Delivery 3min-4hrs.
+Thank You!
+Your order has been placed successfully.
+We're processing and will be delivered
+within 3 minutes to 4 hours.
 
 📞 Support: +233 549 358 359`;
 
@@ -626,6 +631,4 @@ Donmac Data Hub thank you! Order placed. Delivery 3min-4hrs.
 })();
 </script>
 </body>
-
 </html>
-
