@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donmac Data Hub · Premium Color Receipt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0a1e33 0%, #1a3350 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 36px;
+            box-shadow: 0 30px 60px rgba(0, 10, 30, 0.4);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(145deg, #0f2a44, #1a3a5a);
+            color: white;
+            padding: 1.8rem 2.5rem;
+            border-bottom: 4px solid #ffaa33;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff, #ffe6b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header h1 span {
+            color: #ffb347;
+            font-size: 1rem;
+            display: block;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            -webkit-text-fill-color: #ffb347;
+            background: none;
+        }
+        .header p {
+            color: #b0d0f0;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+        .content {
+            padding: 2rem 2rem 2rem 2rem;
+            background: #f5faff;
+        }
+        .form-section {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,30,70,0.08);
+            margin-bottom: 1.5rem;
+            border: 1px solid #d0e2ff;
+        }
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a3a5a;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-title:before {
+            content: '📋';
+            font-size: 1.4rem;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem 1.5rem;
+        }
+        .form-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .form-item label {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #2f5780;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .form-item input, .form-item select {
+            background: #f0f7ff;
+            border: 2px solid #c0d8f5;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0f2a44;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-item input:focus, .form-item select:focus {
+            border-color: #ffaa33;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 170, 51, 0.15);
+        }
+        .form-item.full {
+            grid-column: span 2;
+        }
+        .network-badge {
+            display: flex;
+            gap: 10px;
+            margin: 0.8rem 0 0.2rem;
+            flex-wrap: wrap;
+        }
+        .network-badge span {
+            background: linear-gradient(145deg, #e6f0ff, #d6e6ff);
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f2a44;
+            border: 1px solid #ffaa33;
+        }
+        
+        /* RECEIPT PREVIEW - COLORFUL & PROFESSIONAL */
+        .receipt-preview {
+            background: linear-gradient(165deg, #0f2a44 0%, #1f3f60 100%);
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin: 1rem 0 0.5rem;
+            border: 4px solid #ffaa33;
+            box-shadow: 0 15px 30px rgba(0,30,60,0.3);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+        .receipt-header h2 {
+            color: #ffaa33;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            -webkit-text-fill-color: #ffaa33;
+        }
+        .receipt-header h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 3px;
+            background: rgba(255,170,51,0.25);
+            display: inline-block;
+            padding: 0.2rem 1.5rem;
+            border-radius: 30px;
+            border: 1px solid #ffaa33;
+        }
+        .receipt-header p {
+            color: #ffd8a8;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .receipt-body {
+            background: #fefefd;
+            border-radius: 20px;
+            padding: 1.2rem 1.5rem;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: #0f2a44;
+            border: 3px solid #ffaa33;
+            margin-bottom: 0.8rem;
+            box-shadow: inset 0 0 0 2px white, 0 5px 0 rgba(0,0,0,0.1);
+            font-weight: 500;
+        }
+        .receipt-footer {
+            color: #ffd8a8;
+            font-size: 0.9rem;
+            text-align: center;
+            border-top: 2px dashed #ffaa33;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+        }
+        .receipt-footer strong {
+            color: #ffaa33;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            background: white;
+            border: 2px solid #0f2a44;
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #0f2a44;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: #0f2a44;
+            color: white;
+            border-color: #ffaa33;
+        }
+        .btn-primary:hover {
+            background: #1f3f60;
+        }
+        .btn-wa {
+            background: #25D366;
+            border-color: #128C7E;
+            color: white;
+        }
+        .btn-wa:hover {
+            background: #20b359;
+        }
+        .btn-print {
+            background: linear-gradient(145deg, #ffaa33, #ffb84d);
+            border-color: #b36b00;
+            color: #0f2a44;
+        }
+        .btn-print:hover {
+            background: linear-gradient(145deg, #ffb84d, #ffc66b);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .note {
+            background: #fff2db;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.85rem;
+            color: #5a4a2e;
+            border-left: 6px solid #ffaa33;
+            margin-top: 1.2rem;
+        }
+
+        /* PRINT STYLES - ONE PAGE, FULL COLOR WITH CLEAR TEXT */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.4in;
+            }
+            body {
+                background: white;
+                padding: 0;
+                display: block;
+                height: auto;
+            }
+            .container {
+                max-width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+                background: white;
+            }
+            .header, .form-section, .actions, .note, .network-badge, .btn, .btn-print, .btn-wa {
+                display: none !important;
+            }
+            .receipt-preview {
+                border: 3px solid #ffaa33;
+                background: linear-gradient(165deg, #0f2a44 0%, #1f3f60 100%);
+                margin: 0;
+                padding: 1.2rem;
+                page-break-inside: avoid;
+                break-inside: avoid;
+                box-shadow: none;
+                width: 100%;
+                height: auto;
+                display: block;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .receipt-header h2 {
+                color: #ffaa33;
+                -webkit-text-fill-color: #ffaa33;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            }
+            .receipt-header h3 {
+                background: rgba(255,170,51,0.25);
+                color: white;
+                border: 1px solid #ffaa33;
+            }
+            .receipt-header p {
+                color: #ffd8a8;
+            }
+            .receipt-body {
+                background: #fefefd;
+                border: 3px solid #ffaa33;
+                color: #0f2a44;
+            }
+            .receipt-footer {
+                color: #ffd8a8;
+                border-top: 2px dashed #ffaa33;
+            }
+            .receipt-footer strong {
+                color: #ffaa33;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📱 DONMAC DATA HUB
+            <span>MTN · Telecel · AirtelTigo</span>
+        </h1>
+        <p>⚡ Premium receipt generator · Manual orders</p>
+    </div>
+
+    <div class="content">
+        <!-- INPUT FORM -->
+        <div class="form-section">
+            <div class="form-title">Enter order details</div>
+            
+            <div class="network-badge">
+                <span>📶 MTN</span>
+                <span>📶 Telecel</span>
+                <span>📶 AirtelTigo</span>
+                <span>⏱️ 3min-4hr delivery</span>
+                <span>📱 Momo only</span>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-item">
+                    <label>🧾 ORDER NUMBER</label>
+                    <input type="text" id="orderNumber" value="DHUB-2410-15" placeholder="e.g. DHUB-2402-15">
+                </div>
+                <div class="form-item">
+                    <label>👤 CUSTOMER NAME</label>
+                    <input type="text" id="customerName" value="Kwame Asante" placeholder="e.g. Akosua">
+                </div>
+                
+                <div class="form-item">
+                    <label>📡 NETWORK</label>
+                    <select id="networkSelect">
+                        <option value="MTN">MTN</option>
+                        <option value="Telecel">Telecel</option>
+                        <option value="AirtelTigo">AirtelTigo</option>
+                    </select>
+                </div>
+                
+                <div class="form-item">
+                    <label>📦 DATA PACKAGE</label>
+                    <select id="packageSelect">
+                        <option value="1GB">1GB</option>
+                        <option value="2GB">2GB</option>
+                        <option value="3GB">3GB</option>
+                        <option value="4GB">4GB</option>
+                        <option value="5GB">5GB</option>
+                        <option value="6GB">6GB</option>
+                        <option value="7GB">7GB</option>
+                        <option value="8GB">8GB</option>
+                        <option value="10GB" selected>10GB</option>
+                        <option value="15GB">15GB</option>
+                        <option value="20GB">20GB</option>
+                        <option value="25GB">25GB</option>
+                        <option value="30GB">30GB</option>
+                        <option value="40GB">40GB</option>
+                        <option value="50GB">50GB</option>
+                        <option value="100GB">100GB</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <label>💰 AMOUNT (GHS)</label>
+                    <input type="text" id="amountField" value="46" placeholder="46">
+                </div>
+
+                <div class="form-item">
+                    <label>📞 BENEFICIARY NUMBER</label>
+                    <input type="text" id="beneficiaryNumber" value="024 555 7890" placeholder="024xxxxxxx">
+                </div>
+
+                <div class="form-item">
+                    <label>💳 PAYMENT NUMBER</label>
+                    <input type="text" id="paymentNumber" value="024 555 4321" placeholder="024xxxxxxx">
+                </div>
+
+                <div class="form-item">
+                    <label>📱 PAYMENT METHOD</label>
+                    <select id="paymentMethod">
+                        <option value="MTN Momo">MTN Momo</option>
+                        <option value="Telecel Momo">Telecel Momo</option>
+                        <option value="AirtelTigo Momo">AirtelTigo Momo</option>
+                    </select>
+                </div>
+
+                <div class="form-item full">
+                    <label>📝 ADDITIONAL NOTES (optional)</label>
+                    <input type="text" id="extraNote" value="Paid via Momo" placeholder="e.g. Call before delivery">
+                </div>
+            </div>
+        </div>
+
+        <!-- PROFESSIONAL COLOR RECEIPT PREVIEW WITH DATE & TIME -->
+        <div class="receipt-preview" id="receiptPreview">
+            <div class="receipt-header">
+                <h2>🧾 DONMAC DATA HUB</h2>
+                <h3>OFFICIAL PAYMENT RECEIPT</h3>
+                <p>⏱️ Delivery: 3min - 4hrs | Mon-Sun 8am-9:30pm</p>
+            </div>
+
+            <div class="receipt-body" id="receiptDisplay">
+══════════════════════════════
+  ORDER DETAILS
+══════════════════════════════
+  ORDER NUMBER    : DHUB-2410-15
+  DATE & TIME     : 2024-02-24 14:30
+  CUSTOMER        : Kwame Asante
+  NETWORK         : MTN
+  PACKAGE         : 10GB
+  AMOUNT          : GHS 46
+  BENEFICIARY     : 024 555 7890
+  PAYMENT FROM    : 024 555 4321
+  METHOD          : MTN Momo
+  NOTES           : Paid via Momo
+══════════════════════════════
+  STATUS          : ✅ PAID / PROCESSING
+══════════════════════════════
+
+  Donmac Data Hub and Thank You!
+  Your order has been placed successfully.
+  We're processing and will be delivered
+  within 3 minutes to 4 hours.
+
+  📞 Support: +233 549 358 359
+══════════════════════════════
+            </div>
+
+            <div class="receipt-footer">
+                <strong>Thank you for choosing Donmac Data Hub!</strong>
+            </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="actions">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn" id="copyBtn">📋 COPY RECEIPT</button>
+                <button class="btn" id="refreshPreview">🔄 REFRESH</button>
+                <button class="btn btn-print" id="printBtn">🖨️ PRINT COLOR RECEIPT</button>
+            </div>
+            <a href="#" id="whatsappShareLink" target="_blank" class="btn btn-wa">
+                💬 SEND VIA WHATSAPP
+            </a>
+        </div>
+
+        <!-- HELPER NOTE -->
+        <div class="note">
+            <strong>✍️ ONE-PAGE COLOR PRINT:</strong> Click PRINT button → in dialog, make sure "Background graphics" is CHECKED to preserve colors. Prints on ONE PAGE only with clear text.
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Form elements
+    const orderNumber = document.getElementById('orderNumber');
+    const customerName = document.getElementById('customerName');
+    const networkSelect = document.getElementById('networkSelect');
+    const packageSelect = document.getElementById('packageSelect');
+    const amountField = document.getElementById('amountField');
+    const beneficiary = document.getElementById('beneficiaryNumber');
+    const paymentNumber = document.getElementById('paymentNumber');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const extraNote = document.getElementById('extraNote');
+    
+    const receiptDisplay = document.getElementById('receiptDisplay');
+    const copyBtn = document.getElementById('copyBtn');
+    const refreshBtn = document.getElementById('refreshPreview');
+    const printBtn = document.getElementById('printBtn');
+    const waLink = document.getElementById('whatsappShareLink');
+
+    // Get current date and time formatted
+    function getCurrentDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
+
+    // Generate receipt with date & time
+    function generateFormattedReceipt() {
+        const order = orderNumber.value.trim() || 'DHUB-????';
+        const dateTime = getCurrentDateTime();
+        const cust = customerName.value.trim() || 'Customer';
+        const network = networkSelect.options[networkSelect.selectedIndex]?.text || 'MTN';
+        const pkg = packageSelect.value || '10GB';
+        const amount = amountField.value.trim() || '0';
+        const bene = beneficiary.value.trim() || '(not provided)';
+        const payNum = paymentNumber.value.trim() || '(not provided)';
+        const method = paymentMethod.options[paymentMethod.selectedIndex]?.text || 'Momo';
+        const note = extraNote.value.trim() || '—';
+
+        return `══════════════════════════════
+  ORDER DETAILS
+══════════════════════════════
+  ORDER NUMBER    : ${order}
+  DATE & TIME     : ${dateTime}
+  CUSTOMER        : ${cust}
+  NETWORK         : ${network}
+  PACKAGE         : ${pkg}
+  AMOUNT          : GHS ${amount}
+  BENEFICIARY     : ${bene}
+  PAYMENT FROM    : ${payNum}
+  METHOD          : ${method}
+  NOTES           : ${note}
+══════════════════════════════
+  STATUS          : ✅ PAID / PROCESSING
+══════════════════════════════
+
+  Donmac Data Hub and Thank You!
+  Your order has been placed successfully.
+  We're processing and will be delivered
+  within 3 minutes to 4 hours.
+
+  📞 Support: +233 549 358 359
+══════════════════════════════`;
+    }
+
+    // Update preview
+    function updatePreview() {
+        receiptDisplay.innerText = generateFormattedReceipt();
+        updateWhatsAppLink();
+    }
+
+    // Update WhatsApp link with date
+    function updateWhatsAppLink() {
+        const order = orderNumber.value.trim() || 'DHUB-????';
+        const dateTime = getCurrentDateTime();
+        const cust = customerName.value.trim() || 'Customer';
+        const network = networkSelect.value;
+        const pkg = packageSelect.value || '10GB';
+        const amount = amountField.value.trim() || '0';
+        const bene = beneficiary.value.trim() || '(not provided)';
+        const payNum = paymentNumber.value.trim() || '(not provided)';
+        const method = paymentMethod.options[paymentMethod.selectedIndex]?.text || 'Momo';
+        const note = extraNote.value.trim() || '—';
+
+        const waMessage = `🧾 *DONMAC DATA HUB - OFFICIAL RECEIPT*
+══════════════════════════════
+*ORDER*    : ${order}
+*DATE*     : ${dateTime}
+*CUSTOMER* : ${cust}
+*NETWORK*  : ${network}
+*PACKAGE*  : ${pkg}
+*AMOUNT*   : GHS ${amount}
+*BENEF*    : ${bene}
+*PAY FROM* : ${payNum}
+*METHOD*   : ${method}
+*NOTES*    : ${note}
+══════════════════════════════
+✅ *PAID / PROCESSING*
+══════════════════════════════
+
+Donmac Data Hub thank you! Order placed. Delivery 3min-4hrs.
+
+📞 Support: +233 549 358 359`;
+
+        const phone = '233549358359';
+        const encoded = encodeURIComponent(waMessage);
+        waLink.href = `https://wa.me/${phone}?text=${encoded}`;
+    }
+
+    // Copy to clipboard
+    async function copyReceipt() {
+        const receiptText = generateFormattedReceipt();
+        try {
+            await navigator.clipboard.writeText(receiptText);
+            alert('✅ Receipt copied! Now paste anywhere.');
+        } catch (err) {
+            alert('❌ Copy failed. Select text manually.');
+        }
+    }
+
+    // Print function
+    function printReceipt() {
+        window.print();
+    }
+
+    // Event listeners
+    const inputs = [orderNumber, customerName, networkSelect, packageSelect, amountField, beneficiary, paymentNumber, paymentMethod, extraNote];
+    inputs.forEach(el => el.addEventListener('input', updatePreview));
+    inputs.forEach(el => el.addEventListener('change', updatePreview));
+
+    refreshBtn.addEventListener('click', updatePreview);
+    copyBtn.addEventListener('click', copyReceipt);
+    printBtn.addEventListener('click', printReceipt);
+
+    // Auto-refresh every minute to keep time current
+    setInterval(updatePreview, 60000);
+
+    // Initialize
+    updatePreview();
+})();
+</script>
+</body>
+</html>
